@@ -144,62 +144,59 @@ fetch(url)
 
 
 
-  function sortTable(columnIndex) {
-    const table = document.getElementById("jsonTable");
-    const tbody = table.getElementsByTagName("tbody")[0];
-    const rows = tbody.getElementsByTagName("tr");
-    const sortDirection =
-      table.getAttribute("data-sort-direction") === "asc" ? -1 : 1;
-  
-    const sortedRows = Array.from(rows).sort((rowA, rowB) => {
-      const cellA = rowA.getElementsByTagName("td")[columnIndex];
-      const cellB = rowB.getElementsByTagName("td")[columnIndex];
-  
-      let valueA = cellA.textContent.trim();
-      let valueB = cellB.textContent.trim();
-  
-      // Split values with comma and treat each value as a separate number
-      valueA = valueA.split(",").map((s) => parseFloat(s.trim()));
-      valueB = valueB.split(",").map((s) => parseFloat(s.trim()));
-  
-      // Strip out non-numeric characters from each value
-      valueA = valueA.map((v) => isNaN(v) ? 0 : v).reduce((a, b) => a + b, 0);
-      valueB = valueB.map((v) => isNaN(v) ? 0 : v).reduce((a, b) => a + b, 0);
-  
-      // Convert units of measurement to a common unit if necessary
-      // For example: convert "cm" to "in" if the table has both units
-      // If all values are in the same unit, this step can be skipped
-      // ...
-  
-      // Keep any values containing a dash symbol ("-") at the bottom of the sort
-      if (valueA.toString().includes("-")) {
-        valueA = sortDirection === 1 ? Number.POSITIVE_INFINITY : Number.NEGATIVE_INFINITY;
-      }
-      if (valueB.toString().includes("-")) {
-        valueB = sortDirection === 1 ? Number.POSITIVE_INFINITY : Number.NEGATIVE_INFINITY;
-      }
-  
-      if (valueA < valueB) {
-        return -1 * sortDirection;
-      } else if (valueA > valueB) {
-        return 1 * sortDirection;
-      } else {
-        return 0;
-      }
-    });
-  
-    // Remove existing rows from the table
-    while (tbody.firstChild) {
-      tbody.removeChild(tbody.firstChild);
+function sortTable(columnIndex) {
+  const table = document.getElementById("jsonTable");
+  const tbody = table.getElementsByTagName("tbody")[0];
+  const rows = tbody.getElementsByTagName("tr");
+  const sortDirection =
+    table.getAttribute("data-sort-direction") === "asc" ? -1 : 1;
+
+  const sortedRows = Array.from(rows).sort((rowA, rowB) => {
+    const cellA = rowA.getElementsByTagName("td")[columnIndex];
+    const cellB = rowB.getElementsByTagName("td")[columnIndex];
+
+    let valueA = cellA.textContent.trim();
+    let valueB = cellB.textContent.trim();
+
+    if (!isNaN(valueA) && !isNaN(valueB)) {
+      valueA = parseFloat(valueA);
+      valueB = parseFloat(valueB);
+    } else if (valueA.includes("-")) {
+      valueA = sortDirection === 1 ? "\uffff" : "";
+    } else if (valueB.includes("-")) {
+      valueB = sortDirection === 1 ? "\uffff" : "";
     }
-  
-    // Add the sorted rows to the table
-    sortedRows.forEach((sortedRow) => {
-      tbody.appendChild(sortedRow);
-    });
-  
-    // Update the sort direction attribute of the table
-    const newSortDirection = sortDirection === 1 ? "asc" : "desc";
-    table.setAttribute("data-sort-direction", newSortDirection);
+
+    if (valueA === "") {
+      valueA = sortDirection === 1 ? "\uffff" : "";
+    }
+
+    if (valueB === "") {
+      valueB = sortDirection === 1 ? "\uffff" : "";
+    }
+
+    if (valueA < valueB) {
+      return -1 * sortDirection;
+    } else if (valueA > valueB) {
+      return 1 * sortDirection;
+    } else {
+      return 0;
+    }
+  });
+
+  // Remove existing rows from the table
+  while (tbody.firstChild) {
+    tbody.removeChild(tbody.firstChild);
   }
-  
+
+  // Add the sorted rows to the table
+  sortedRows.forEach((sortedRow) => {
+    tbody.appendChild(sortedRow);
+  });
+
+  // Update the sort direction attribute of the table
+  const newSortDirection = sortDirection === 1 ? "asc" : "desc";
+  table.setAttribute("data-sort-direction", newSortDirection);
+}
+
+
