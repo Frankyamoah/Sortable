@@ -1,0 +1,44 @@
+    <!DOCTYPE html>
+    <html>
+    
+
+<head>
+    <meta charset="UTF-8">
+    <title>SuperHeroes</title>
+    <script  type="module" src="./cantroler.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<h1> SuperHeroes </h1>
+<body>
+    
+</body>
+
+    <table  id="jsonTable">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th class="sortth"     data-darection="1" data-defers-type="name">Name</th>
+                <th class="sortth"     data-darection="1"data-defers-type="fullName">Full Name</th>
+                <th class="sortth"     data-darection="1"data-defers-type="intelligence">Intelligence</th>
+                <th class="sortth"    data-darection="1"data-defers-type="strength" >Strength</th>
+                <th class="sortth"    data-darection="1"data-defers-type="speed" >Speed</th>
+                <th class="sortth"    data-darection="1" data-defers-type="durability" >Durability</th>
+                <th class="sortth"    data-darection="1"data-defers-type="power">Power</th>
+                <th class="sortth"     data-darection="1"data-defers-type="race"  >Race</th>
+                <th class="sortth"    data-darection="1"data-defers-type="gender" >Gender</th>
+                <th class="sortth"     data-darection="1"data-defers-type="height"  >Height</th>
+                <th class="sortth"     data-darection="1"data-defers-type="weight">Weight</th>
+                <th class="sortth"    data-darection="1" data-defers-type="placeOfBirth" >Place of Birth</th>
+                <th class="sortth"    data-darection="1"data-defers-type="alignment"  >Alignment</th>
+            </tr>
+        </thead>
+        <tbody class="hero-body">
+        </tbody>
+    </table>
+    <div class="pagination">
+        <button id="previous-button">&laquo Previous</button>
+        <button id="next-button">Next &raquo</button>
+    </div>
+</body>
+
+</html>
