@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>SuperHeroes</title>
+    <script  type="module" src="./cantroler.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<h1> SuperHeroes </h1>
+
+<body>
+    <div class="search-wrapper">
+        <label for="search">Search Users</label>
+        <input type="search" id="search" data-search>
+    </div>
+    <label for="results-per-page">Results per page:</label>
+    <select name="results-per-page" id="results-per-page">
+        <option value="10">10</option>
+        <option value="20" selected>20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="All">All Results</option>
+    </select>
+
+    <table id="jsonTable">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th onclick="sortTable(1)">Name</th>
+                <th onclick="sortTable(2)">Full Name</th>
+                <th onclick="sortTable(3)">Intelligence</th>
+                <th onclick="sortTable(4)">Strength</th>
+                <th onclick="sortTable(5)">Speed</th>
+                <th onclick="sortTable(6)">Durability</th>
+                <th onclick="sortTable(7)">Power</th>
+                <th onclick="sortTable(8)">Race</th>
+                <th onclick="sortTable(9)">Gender</th>
+                <th class="e"   onclick="sortTable(10)">Height</th>
+                <th onclick="sortTable(11)">Weight</th>
+                <th onclick="sortTable(12)">Place of Birth</th>
+                <th onclick="sortTable(13)">Alignment</th>
+            </tr>
+        </thead>
+        <tbody class="hero-body">
+        </tbody>
+    </table>
+    <div class="pagination">
+        <button id="previous-button">&laquo Previous</button>
+        <button id="next-button">Next &raquo</button>
+    </div>
+</body>
+
+</html>

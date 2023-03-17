@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>SuperHeroes</title>
+    <script  type="module" src="./cantroler.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<h1> SuperHeroes </h1>
+<!-- <tr> 
+    <td><img src="${el.images?.xs}"></td>
+    <td>${el.name}</td>
+    <td>${el.biography.fullName}</td>
+    <td>${el.powerstats.intelligence}</td>
+    <td>${el.powerstats.strength}</td>
+    <td>${el.powerstats.speed}</td>
+    <td>${el.powerstats.durability}</td>
+    <td>${el.powerstats.power}</td>
+    <td>${el.appearance.race}</td>
+    <td>${el.appearance.gender}</td>
+    <td>${el.appearance.height}</td>
+    <td>${el.appearance.weight}</td>
+    <td>${el.biography.placeOfBirth}</td>
+    <td>${el.biography.alignment}</td>
+    </tr> -->
+
+
+
+
+
+
+<body>
+    <div class="search-wrapper">
+        <label for="search">Search Users</label>
+        <input type="search" id="search" data-search>
+    </div>
+    <label for="results-per-page">Results per page:</label>
+    <select name="results-per-page" id="results-per-page">
+        <option value="10">10</option>
+        <option value="20" selected>20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="All">All Results</option>
+    </select>
+
+    <table  data-darection="1" id="jsonTable">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th class="sortth"   data-defers-type="name">Name</th>
+                <th class="sortth"  data-defers-type="fullName">Full Name</th>
+                <th class="sortth"  data-defers-type="intelligence">Intelligence</th>
+                <th class="sortth" data-defers-type="strength" >Strength</th>
+                <th class="sortth" data-defers-type="speed" >Speed</th>
+                <th class="sortth"  data-defers-type="durability" >Durability</th>
+                <th class="sortth" data-defers-type="power">Power</th>
+                <th class="sortth"  data-defers-type="race"  >Race</th>
+                <th class="sortth" data-defers-type="gender" >Gender</th>
+                <th class="sortth"  data-defers-type="height"  >Height</th>
+                <th class="sortth"  data-defers-type="weight">Weight</th>
+                <th class="sortth"  data-defers-type="placeOfBirth" >Place of Birth</th>
+                <th class="sortth" data-defers-type="alignment"  >Alignment</th>
+            </tr>
+        </thead>
+        <tbody class="hero-body">
+        </tbody>
+    </table>
+    <div class="pagination">
+        <button id="previous-button">&laquo Previous</button>
+        <button id="next-button">Next &raquo</button>
+    </div>
+</body>
+
+</html>

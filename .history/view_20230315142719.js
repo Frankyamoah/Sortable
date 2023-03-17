@@ -1,0 +1,4 @@
+
+const renderHeros = (data)=>{
+
+}
