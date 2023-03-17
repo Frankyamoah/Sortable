@@ -144,59 +144,89 @@ fetch(url)
 
 
 
-function sortTable(columnIndex) {
-  const table = document.getElementById("jsonTable");
-  const tbody = table.getElementsByTagName("tbody")[0];
-  const rows = tbody.getElementsByTagName("tr");
-  const sortDirection =
-    table.getAttribute("data-sort-direction") === "asc" ? -1 : 1;
-
-  const sortedRows = Array.from(rows).sort((rowA, rowB) => {
-    const cellA = rowA.getElementsByTagName("td")[columnIndex];
-    const cellB = rowB.getElementsByTagName("td")[columnIndex];
-
-    let valueA = cellA.textContent.trim();
-    let valueB = cellB.textContent.trim();
-
-    if (!isNaN(valueA) && !isNaN(valueB)) {
-      valueA = parseFloat(valueA);
-      valueB = parseFloat(valueB);
-    } else if (valueA.includes("-")) {
-      valueA = sortDirection === 1 ? "\uffff" : "";
-    } else if (valueB.includes("-")) {
-      valueB = sortDirection === 1 ? "\uffff" : "";
+  function sortTable(columnIndex) {
+    const table = document.getElementById("jsonTable");
+    const tbody = table.getElementsByTagName("tbody")[0];
+    const rows = tbody.getElementsByTagName("tr");
+    const sortDirection =
+      table.getAttribute("data-sort-direction") === "asc" ? -1 : 1;
+  
+    const sortedRows = Array.from(rows).sort((rowA, rowB) => {
+      const cellA = rowA.getElementsByTagName("td")[columnIndex];
+      const cellB = rowB.getElementsByTagName("td")[columnIndex];
+  
+      let valueA = cellA.textContent.trim();
+      let valueB = cellB.textContent.trim();
+  
+      // Check for comma-separated numeric values
+      if (typeof valueA === 'string' && typeof valueB === 'string') {
+        valueA = valueA.toLowerCase();
+        valueB = valueB.toLowerCase();
+        if (valueA < valueB) {
+          return sortDirection === 1 ? -1 : 1;
+        }
+        if (valueA > valueB) {
+          return sortDirection === 1 ? 1 : -1;
+        }
+        return 0;
+      } else if (!isNaN(valueA) && !isNaN(valueB) && (valueA.includes(",") || valueB.includes(","))) {
+        const valueArrayA = valueA.split(",");
+        const valueArrayB = valueB.split(",");
+        for (let i = 0; i <= valueArrayA.length; i++) {
+          valueArrayA[i] = parseFloat(valueArrayA[i]);
+        }
+        for (let i = 0; i <= valueArrayB.length; i++) {
+          valueArrayB[i] = parseFloat(valueArrayB[i]);
+        }
+        if (valueArrayA.length >= 1 || valueArrayB.length >= 1) {
+          valueA = valueArrayA;
+          valueB = valueArrayB;
+        }
+      } else if (!isNaN(valueA) && !isNaN(valueB)) {
+        valueA = parseFloat(valueA);
+        valueB = parseFloat(valueB);
+      } else if (valueA.includes("-")) {
+        valueA = sortDirection === 1 ? "\uffff" : "";
+      } else if (valueB.includes("-")) {
+        valueB = sortDirection === 1 ? "\uffff" : "";
+      }
+      
+      if (Array.isArray(valueA)) {
+        valueA.sort((a, b) => a - b);
+        valueB.sort((a, b) => a - b);
+        valueA = valueA.join(", ");
+        valueB = valueB.join(", ");
+      } else {
+        if (valueA === "") {
+          valueA = sortDirection === 1 ? "\uffff" : "";
+        }
+  
+        if (valueB === "") {
+          valueB = sortDirection === 1 ? "\uffff" : "";
+        }
+      }
+  
+      if (valueA < valueB) {
+        return -1 * sortDirection;
+      } else if (valueA > valueB) {
+        return 1 * sortDirection;
+      } else {
+        return 0;
+      }
+    });
+  
+    // Remove existing rows from the table
+    while (tbody.firstChild) {
+      tbody.removeChild(tbody.firstChild);
     }
-
-    if (valueA === "") {
-      valueA = sortDirection === 1 ? "\uffff" : "";
-    }
-
-    if (valueB === "") {
-      valueB = sortDirection === 1 ? "\uffff" : "";
-    }
-
-    if (valueA < valueB) {
-      return -1 * sortDirection;
-    } else if (valueA > valueB) {
-      return 1 * sortDirection;
-    } else {
-      return 0;
-    }
-  });
-
-  // Remove existing rows from the table
-  while (tbody.firstChild) {
-    tbody.removeChild(tbody.firstChild);
+  
+    // Add the sorted rows to the table
+    sortedRows.forEach((sortedRow) => {
+      tbody.appendChild(sortedRow);
+    });
+  
+    // Update the sort direction attribute of the table
+    const newSortDirection = sortDirection === 1 ? "asc" : "desc";
+    table.setAttribute("data-sort-direction", newSortDirection);
   }
-
-  // Add the sorted rows to the table
-  sortedRows.forEach((sortedRow) => {
-    tbody.appendChild(sortedRow);
-  });
-
-  // Update the sort direction attribute of the table
-  const newSortDirection = sortDirection === 1 ? "asc" : "desc";
-  table.setAttribute("data-sort-direction", newSortDirection);
-}
-
-
+  
